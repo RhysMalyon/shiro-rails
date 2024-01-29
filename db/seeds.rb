@@ -1,4 +1,5 @@
 require 'faker/japanese'
+require 'rest-client'
 
 puts 'Setting up seed config:'
 
@@ -17,6 +18,17 @@ courses = [
 ]
 
 puts 'Configuration setup completed.'
+
+puts '----------'
+
+puts 'Creating primary user:'
+
+User.create!(
+  email: 'test@test.com',
+  password: 'test1234'
+)
+
+puts 'Primary user created.'
 
 puts '----------'
 
@@ -67,3 +79,24 @@ puts 'Creating 10 placeholder appointments:'
 end
 
 puts '10 appointments created.'
+
+puts '----------'
+
+puts '1. Fetching Japanese national holidays:'
+
+holidays_response = RestClient.get("https://holidays-jp.github.io/api/v1/#{Date.current.year}/date.json")
+holidays_result = JSON.parse(holidays_response)
+
+puts '2. Adding holidays to database:'
+
+holidays_result.keys.each do |holiday|
+  Holiday.create!(
+    date: DateTime.parse(holiday).strftime('%Y/%m/%d %I:%M:%S %p')
+  )
+end
+
+puts 'Holidays added.'
+
+puts 'Seeding complete.'
+
+puts '----------'
