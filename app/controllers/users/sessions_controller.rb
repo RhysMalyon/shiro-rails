@@ -6,26 +6,16 @@ module Users
 
     private
 
-    def respond_with(current_user, _opts = {})
+    def respond_with(_current_user, _opts = {})
       render json: {
         status: {
-          code: 200, message: 'Logged in successfully.',
-          data: { user: UserSerializer.new(current_user).serializable_hash[:data][:attributes] }
+          code: 200, message: 'Logged in successfully.'
         }
       }, status: :ok
     end
 
     def respond_to_on_destroy
-      if request.headers['Authorization'].present?
-        jwt_payload = JWT.decode(
-          request.headers['Authorization'].split(' ').last,
-          Rails.application.credentials.devise_jwt_secret_key!
-        ).first
-
-        current_user = User.find_by(id: jwt_payload['sub'], jti: jwt_payload['jti'])
-      end
-
-      if current_user
+      if authorized?
         render json: {
           status: 200,
           message: 'Logged out successfully.'
