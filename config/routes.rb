@@ -12,4 +12,14 @@ Rails.application.routes.draw do
                sessions: 'users/sessions',
                registrations: 'users/registrations'
              }
+
+  resources :customers do
+    member do
+      get 'appointments'
+    end
+  end
+
+  resources :appointments do
+    get 'times', on: :collection
+  end
 end
