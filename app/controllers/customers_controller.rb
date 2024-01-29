@@ -62,29 +62,20 @@ class CustomersController < ApplicationController
   end
 
   def destroy
-    if @customer
-      if @customer.destroy
-        render json: {
-          status: {
-            code: 200,
-            message: 'Customer deleted successfully.'
-          }
-        }
-      else
-        render json: {
-                 status: {
-                   message: 'Customer couldn\'t be destroyed.'
-                 }
-               },
-               status: :unprocessable_entity
-      end
-    else
+    if @customer.destroy
       render json: {
         status: {
-          code: 404,
-          message: 'Customer doesn\'t exist.'
+          code: 200,
+          message: 'Customer deleted successfully.'
         }
       }
+    else
+      render json: {
+               status: {
+                 message: 'Customer couldn\'t be deleted.'
+               }
+             },
+             status: :unprocessable_entity
     end
   end
 
