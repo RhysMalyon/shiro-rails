@@ -1,36 +1,69 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker/japanese'
 
-now = DateTime.now
-six_months_later = now >> 6
+puts 'Setting up seed config:'
 
-days_variance = (six_months_later - now).to_i
+Faker::Config.locale = :ja
 
-@customer = Customer.find_by(email: 'bobross@iluvpaint.com')
+start_date = Date.today
+end_date = start_date + 6.months
+
+time_range = (10..18).to_a
+
+courses = [
+  [ 15, 'trial', 2000 ],
+  [ 30, 'starter', 4000 ],
+  [ 60, 'single', 8000 ],
+  [ 120, 'double', 12000 ]
+]
+
+puts 'Configuration setup completed.'
+
+puts '----------'
+
+puts 'Creating 5 placeholder customers:'
+
+5.times do
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+
+  Customer.create!(
+    email: "#{last_name.romaji.downcase}@#{['gmail', 'yahoo', 'hotmail'].sample}.com",
+    first_name: first_name,
+    last_name: last_name,
+    first_name_phonetic: first_name.kana,
+    last_name_phonetic: last_name.kana,
+    tel: "#{['070', '080'].sample}#{rand(1000..9999)}#{rand(1000..9999)}"
+  )
+end
+
+puts '5 customers created.'
+
+puts '----------'
 
 puts 'Creating 10 placeholder appointments:'
 
 10.times do
-  random_moment = now + Rational(rand(days_variance * 86400), 86400)
+  @customer = Customer.order("RANDOM()").first
+
+  random_date = rand(start_date..end_date)
+  random_date_time = DateTime.new(
+    random_date.year,
+    random_date.month,
+    random_date.day,
+    time_range.sample
+  )
+
+  selected_course = courses.sample
 
   appointment = Appointment.new(
     customer_id: @customer.id,
-    length: [15, 30, 60, 120].sample,
-    course: ['trial', 'starter', 'single', 'double'].sample,
-    price: [2000, 4000, 8000, 12000].sample,
-    date: random_moment.strftime('%m/%d/%Y %I:%M:%S %p')
+    length: selected_course[0],
+    course: selected_course[1],
+    price: selected_course[2],
+    date: random_date_time.strftime('%Y/%m/%d %I:%M:%S %p')
   )
 
   appointment.save!
-
-  puts appointment
 end
 
 puts '10 appointments created.'
