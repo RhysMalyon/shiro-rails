@@ -13,6 +13,12 @@ Rails.application.routes.draw do
                registrations: 'users/registrations'
              }
 
+  resources :holidays do
+    member do
+      get 'dates'
+    end
+  end
+
   resources :customers do
     member do
       get 'appointments'
