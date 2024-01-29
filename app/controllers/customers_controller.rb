@@ -54,10 +54,10 @@ class CustomersController < ApplicationController
   end
 
   def update
-    if @appointment.update(appointment_params)
-      render json: @appointment
+    if @customer.update(customer_params)
+      render json: @customer
     else
-      render json: @appointment.errors, status: :unprocessable_entity
+      render json: @customer.errors, status: :unprocessable_entity
     end
   end
 
