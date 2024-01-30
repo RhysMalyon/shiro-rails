@@ -18,9 +18,7 @@ courses = [
 ]
 
 puts 'Configuration setup completed.'
-
 puts '----------'
-
 puts 'Creating primary user:'
 
 User.create!(
@@ -29,9 +27,7 @@ User.create!(
 )
 
 puts 'Primary user created.'
-
 puts '----------'
-
 puts 'Creating 5 placeholder customers:'
 
 5.times do
@@ -49,9 +45,7 @@ puts 'Creating 5 placeholder customers:'
 end
 
 puts '5 customers created.'
-
 puts '----------'
-
 puts 'Creating 10 placeholder appointments:'
 
 10.times do
@@ -79,9 +73,7 @@ puts 'Creating 10 placeholder appointments:'
 end
 
 puts '10 appointments created.'
-
 puts '----------'
-
 puts '1. Fetching Japanese national holidays:'
 
 holidays_response = RestClient.get("https://holidays-jp.github.io/api/v1/#{Date.current.year}/date.json")
@@ -96,7 +88,5 @@ holidays_result.keys.each do |holiday|
 end
 
 puts 'Holidays added.'
-
 puts 'Seeding complete.'
-
 puts '----------'
