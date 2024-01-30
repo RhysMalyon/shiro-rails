@@ -14,7 +14,10 @@ class HolidaysController < ApplicationController
   end
 
   def create
-    if @holiday
+    holiday_params_formatted = DateTime.parse(holiday_params.to_s).strftime('%Y/%m/%d %I:%M:%S %p')
+    holiday = Holiday.where(date: holiday_params_formatted)
+
+    if !holiday.empty?
       render json: {
                status: {
                  message: 'Holiday already exists.'
@@ -22,22 +25,22 @@ class HolidaysController < ApplicationController
              },
              status: :unprocessable_entity
     else
-      @new_holiday = Holiday.create!(
-        date: DateTime.parse(holiday_params.to_s).strftime('%Y/%m/%d %I:%M:%S %p')
+      new_holiday = Holiday.create!(
+        date: holiday_params_formatted
       )
 
-      if @new_holiday.save
+      if new_holiday.save
         render json: {
           status: {
             code: 200,
             message: 'Holiday created successfully.'
           },
-          holiday_details: @new_holiday
+          holiday_details: new_holiday
         }
       else
         render json: {
                  status: {
-                   message: "Holiday couldn't be created succesfully. #{@new_holiday.errors.full_messages.to_sentence}"
+                   message: "Holiday couldn't be created succesfully. #{new_holiday.errors.full_messages.to_sentence}"
                  }
                },
                status: :unprocessable_entity
