@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HolidaysController < ApplicationController
   before_action :set_holiday, only: %i[show update destroy]
 
@@ -49,8 +51,14 @@ class HolidaysController < ApplicationController
   end
 
   def update
-    if @holiday.update(holiday_params.merge!(date: DateTime.strptime(params[:date], '%Y/%m/%d %I:%M:%S %p')))
-      render json: @holiday
+    if @holiday.update(holiday_params.merge!(date: DateTime.strptime(params[:holiday][:date], '%Y/%m/%d %I:%M:%S %p')))
+      render json: {
+        status: {
+          code: 200,
+          message: 'Holiday updated.'
+        },
+        holiday_details: @holiday
+      }
     else
       render json: @holiday.errors, status: :unprocessable_entity
     end
