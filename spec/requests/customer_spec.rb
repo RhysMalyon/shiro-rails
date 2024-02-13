@@ -1,9 +1,8 @@
-# rubocop:disable Metrics/BlockLength
 # frozen_string_literal: true
 
 require 'pry'
 
-RSpec.describe 'Customers', type: :request do
+RSpec.describe 'Customers', type: :request do # rubocop:disable Metrics/BlockLength
   before(:all) do
     @admin_user = User.create(email: 'test@rspec.com', password: 'ilovetesting')
 
