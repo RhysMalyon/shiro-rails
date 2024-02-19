@@ -17,6 +17,10 @@ class AppointmentsController < ApplicationController
   end
 
   def create # rubocop:disable Metrics/PerceivedComplexity
+    appointment = Appointment.find_by(date: DateTime.strptime(params[:date], '%m/%d/%Y %I:%M:%S %p'))
+
+    return render json: appointment.errors, status: :unprocessable_entity if appointment
+
     customer = Customer.find_by(email: params[:customer][:email])
 
     if customer
@@ -52,7 +56,8 @@ class AppointmentsController < ApplicationController
   end
 
   def update
-    if @appointment.update(appointment_params.merge!(date: DateTime.strptime(params[:date], '%m/%d/%Y %I:%M:%S %p')))
+    if @appointment.update(appointment_params.merge!(date: DateTime.strptime(params[:appointment][:date],
+                                                                             '%m/%d/%Y %I:%M:%S %p')))
       render json: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
