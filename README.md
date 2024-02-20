@@ -6,7 +6,7 @@
 #### Creating new user
 
 <details>
- <summary><code>POST</code> <code><b>/signup</b></code> <code></code></summary>
+ <summary><code>POST</code> <code><b>/signup</b></code></summary>
 
 ##### Overview
 
@@ -47,7 +47,7 @@ Registers a new user with the credentials provided in the parameters. These cred
 #### Login
 
 <details>
- <summary><code>POST</code> <code><b>/login</b></code> <code></code></summary>
+ <summary><code>POST</code> <code><b>/login</b></code></summary>
 
 ##### Overview
 
@@ -88,7 +88,7 @@ Sign a user in using existing credentials. Returns a JWT Bearer token in the res
 #### Logout
 
 <details>
- <summary><code>DELETE</code> <code><b>/logout</b></code> <code></code></summary>
+ <summary><code>DELETE</code> <code><b>/logout</b></code></summary>
 
 ##### Overview
 
