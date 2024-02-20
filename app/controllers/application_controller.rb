@@ -26,12 +26,12 @@ class ApplicationController < ActionController::API
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
-      keys: %i[first_name last_name first_name_phonetic last_name_phonetic tel role]
+      keys: %i[email password]
     )
 
     devise_parameter_sanitizer.permit(
       :account_update,
-      keys: %i[first_name last_name first_name_phonetic last_name_phonetic tel role]
+      keys: %i[email password]
     )
   end
 end
