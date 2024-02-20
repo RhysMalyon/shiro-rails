@@ -9,19 +9,16 @@ module Users
     def respond_with(current_user, _opts = {})
       if resource.persisted?
         render json: {
-          status: {
-            code: 200,
-            message: 'Signed up successfully'
-          },
-          data: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
-        }
+                 code: 201,
+                 message: 'Signed up successfully'
+               },
+               status: :created
       else
         render json: {
-                 status: {
-                   message: "User couldn't be created succesfully. #{current_user.errors.full_messages.to_sentence}"
-                 }
+                 code: 400,
+                 message: "User couldn't be created succesfully. #{current_user.errors.full_messages.to_sentence}"
                },
-               status: :unprocessable_entity
+               status: :bad_request
       end
     end
   end
