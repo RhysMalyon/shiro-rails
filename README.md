@@ -1,12 +1,12 @@
 
-# Shiro API
+## Shiro API
 
 ### Authorization
 ----
 #### Creating new user
 
 <details>
- <summary><code>POST</code> <code><b>/signup</b></code></summary>
+ <summary><code>POST</code> <code><b>/signup</b></code> <code></code></summary>
 
 ##### Overview
 
@@ -15,10 +15,10 @@ Registers a new user with the credentials provided in the parameters. These cred
 
 ##### Parameters
 
-> | name      |  type     | data type               | description                                                           |
-> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-> | email      |  required | string   | User email  |
-> | password      |  required | string   | User password  |
+> | name             | type       | data type        | description          |
+> |----------------|-----------|-----------------|---------------------|
+> | email             | required | string              | User email           |
+> | password      | required | string              | User password    |
 
 
 ##### Responses
@@ -35,10 +35,83 @@ Registers a new user with the credentials provided in the parameters. These cred
 >       -H 'Content-Type: application/json' \
 >       --data-raw '{
 >           "user": {
->               "email": "test1@test.com",
+>               "email": "test@test.com",
 >               "password": "test1234"
 >           }
 >       }'
+> ```
+
+</details>
+
+
+#### Login
+
+<details>
+ <summary><code>POST</code> <code><b>/login</b></code> <code></code></summary>
+
+##### Overview
+
+Sign a user in using existing credentials. Returns a JWT Bearer token in the response's `authorization` header that can be used in protected routes' request headers.
+
+
+##### Parameters
+
+> | name      |  type     | data type               | description            |
+> |-----------|-----------|-------------------------|------------------------|
+> | email     |  required | string                  | User email             |
+> | password  |  required | string                  | User password          |
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                 |
+> |---------------|-----------------------------------|----------------------------------------------------------|
+> | `200`         | `text/plain;charset=UTF-8`        | `Logged in successfully.`                                |
+> | `401`         | `application/json`                | `{"code":"401","message":"Invalid Email or password"}`   |
+
+##### Example cURL
+
+> ```javascript
+> curl --location 'http://localhost:3001/login' \
+>       -H 'Content-Type: application/json' \
+>       --data-raw '{
+>           "user": {
+>               "email": "test@test.com",
+>               "password": "test1234"
+>           }
+>       }'
+> ```
+
+</details>
+
+
+#### Logout
+
+<details>
+ <summary><code>DELETE</code> <code><b>/logout</b></code> <code></code></summary>
+
+##### Overview
+
+Sign a user out of a session. Requires a valid JWT Bearer token in the request's `authorization` header (received in response headers from either <code>POST</code> <code><b>/login</b></code> or <code>POST</code> <code><b>/signup</b></code>).
+
+
+##### Parameters
+
+> None
+
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `text/plain;charset=UTF-8`        | `Logged out successfully.`                                          |
+> | `401`         | `application/json`                | `{"code":"401","message":"Not authorized to access that route."}`   |
+
+##### Example cURL
+
+> ```javascript
+> curl -L -X DELETE 'http://localhost:3001/logout' \
+>      -H 'Authorization: Bearer <auth_token>' 
 > ```
 
 </details>
