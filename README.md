@@ -1,5 +1,39 @@
+# Shiro API
 
-## Shiro API
+A booking API developed in Ruby on Rails and authenticated with a JWT-based system using the `devise-jwt` gem.
+
+Documentation is still WIP.
+
+## Setup
+
+Install gems:
+
+```
+bundle install
+```
+
+Set up your database:
+
+```
+rails db:create
+rails db:migrate
+```
+
+Seed your database (Optional - includes dummy user for authentication login, as well as customers, appointments, and Japanese national holidays):
+
+```
+rails db:seed
+```
+
+## Running the project
+
+In your terminal:
+
+```
+rails server
+```
+----
+## Routes
 
 ### Authorization
 ----
