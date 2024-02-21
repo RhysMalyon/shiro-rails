@@ -25,6 +25,12 @@ Seed your database (Optional - includes dummy user for authentication login, as 
 rails db:seed
 ```
 
+Testing (for documentation mode add the `-fd` flag to the end):
+
+```
+rspec
+```
+
 ## Running the project
 
 In your terminal:
